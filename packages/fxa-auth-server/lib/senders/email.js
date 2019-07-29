@@ -1759,10 +1759,10 @@ module.exports = function(log, config, oauthdb) {
       'X-Link': links.link,
     };
     // TODO: product, subject, action and icon must vary per subscription for phase 2
-    const product = gettext('Firefox VPN');
-    const subject = gettext('Welcome to Firefox VPN!');
-    const action = gettext('Download Firefox VPN');
-    const icon = 'https://example.com/TODO';
+    const product = gettext('Secure Proxy');
+    const subject = gettext('Welcome to Secure Proxy!');
+    const action = gettext('Download Secure Proxy');
+    //const icon = 'https://example.com/TODO';
 
     return this.send({
       ...message,
@@ -1774,7 +1774,7 @@ module.exports = function(log, config, oauthdb) {
         ...links,
         action,
         email,
-        icon,
+        //icon,
         product,
         subject,
       },
