@@ -14,7 +14,10 @@ const safeUserAgent = require('../userAgent/safe');
 const Sandbox = require('sandbox');
 const url = require('url');
 
-const TEMPLATE_VERSIONS = require('./templates/_versions.json');
+const TEMPLATE_VERSIONS = {
+  ...require('./templates/_versions.json'),
+  ...require('./subscription-templates/_versions.json'),
+};
 
 const DEFAULT_LOCALE = 'en';
 const DEFAULT_TIMEZONE = 'Etc/UTC';
