@@ -172,6 +172,7 @@ module.exports = function(log, config, oauthdb) {
     this.accountSettingsUrl = mailerConfig.accountSettingsUrl;
     this.accountRecoveryCodesUrl = mailerConfig.accountRecoveryCodesUrl;
     this.androidUrl = mailerConfig.androidUrl;
+    this.cancellationPolicyUrl = mailerConfig.cancellationPolicyUrl;
     this.cancelSubscriptionUrl = mailerConfig.cancelSubscriptionUrl;
     this.createAccountRecoveryUrl = mailerConfig.createAccountRecoveryUrl;
     this.downloadSubscriptionUrl = mailerConfig.downloadSubscriptionUrl;
@@ -194,7 +195,6 @@ module.exports = function(log, config, oauthdb) {
     this.supportUrl = mailerConfig.supportUrl;
     this.syncUrl = mailerConfig.syncUrl;
     this.templates = templates;
-    this.termsAndCancellationUrl = mailerConfig.termsAndCancellationUrl;
     this.translator = translator.getTranslator;
     this.updateBillingUrl = mailerConfig.updateBillingUrl;
     this.verificationUrl = mailerConfig.verificationUrl;
@@ -1747,7 +1747,7 @@ module.exports = function(log, config, oauthdb) {
 
     log.trace('mailer.downloadSubscription', { email, productId, uid });
 
-    const query = { productId, uid };
+    const query = { product_id: productId, uid };
     const template = 'downloadSubscription';
     const links = this._generateLinks(
       this.downloadSubscriptionUrl,
@@ -1907,9 +1907,9 @@ module.exports = function(log, config, oauthdb) {
     );
 
     // TODO: Expand params etc
+    links.cancellationPolicyUrl = this.cancellationPolicyUrl;
     links.cancelSubscriptionUrl = this.cancelSubscriptionUrl;
     links.downloadSubscriptionUrl = this.downloadSubscriptionUrl;
-    links.termsAndCancellationUrl = this.termsAndCancellationUrl;
     links.updateBillingUrl = this.updateBillingUrl;
 
     const queryOneClick = extend(query, { one_click: true });

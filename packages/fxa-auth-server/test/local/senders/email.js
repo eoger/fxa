@@ -21,6 +21,7 @@ const config = require(`${ROOT_DIR}/config`);
 const TEMPLATE_VERSIONS = require(`${ROOT_DIR}/lib/senders/templates/_versions.json`);
 
 const messageTypes = [
+  'downloadSubscriptionEmail',
   'lowRecoveryCodesEmail',
   'newDeviceLoginEmail',
   'passwordChangedEmail',
@@ -48,6 +49,7 @@ const messageTypes = [
 ];
 
 const typesContainSupportLinks = [
+  'downloadSubscriptionEmail',
   'lowRecoveryCodesEmail',
   'newDeviceLoginEmail',
   'passwordChangedEmail',
@@ -224,6 +226,7 @@ describe('lib/senders/email:', () => {
       deviceId: 'foo',
       email: 'a@b.com',
       locations: [],
+      productId: 'wibble',
       service: 'sync',
       tokenCode: 'abc123',
       uid: 'uid',
@@ -847,6 +850,66 @@ describe('lib/senders/email:', () => {
               emailConfig.subject,
               'Final reminder: Confirm your email to activate your Firefox Account'
             );
+          });
+          return mailer[type](message);
+        });
+        break;
+
+      case 'downloadSubscriptionEmail':
+        it('emailConfig includes data specific to downloadSubscriptionEmail', () => {
+          mailer.mailer.sendMail = stubSendMail(emailConfig => {
+            assert.include(
+              emailConfig.html,
+              'utm_campaign=fx-new-subscription'
+            );
+            assert.include(
+              emailConfig.text,
+              'utm_campaign=fx-new-subscription'
+            );
+            assert.include(
+              emailConfig.html,
+              'utm_content=fx-download-subscription-oneclick'
+            );
+            assert.include(
+              emailConfig.text,
+              'utm_content=fx-download-subscription'
+            );
+            assert.include(emailConfig.html, '>Download Secure Proxy</a>');
+            assert.include(
+              emailConfig.html,
+              `href="${config.get('smtp.cancellationPolicyUrl')}"`
+            );
+            assert.include(
+              emailConfig.txt,
+              config.get('smtp.cancellationPolicyUrl')
+            );
+            assert.include(
+              emailConfig.html,
+              `href="${config.get('smtp.cancelSubscriptionUrl')}"`
+            );
+            assert.include(
+              emailConfig.txt,
+              config.get('smtp.cancelSubscriptionUrl')
+            );
+            assert.include(
+              emailConfig.html,
+              `href="${config.get(
+                'smtp.downloadSubscriptionUrl'
+              )}&product_id=wibble`
+            );
+            assert.include(
+              emailConfig.txt,
+              `${config.get('smtp.downloadSubscriptionUrl')}&product_id=wibble`
+            );
+            assert.include(
+              emailConfig.html,
+              `href="${config.get('smtp.updateBillingUrl')}"`
+            );
+            assert.include(
+              emailConfig.txt,
+              config.get('smtp.updateBillingUrl')
+            );
+            assert.equal(emailConfig.subject, 'Welcome to Secure Proxy!');
           });
           return mailer[type](message);
         });
