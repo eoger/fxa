@@ -2,101 +2,96 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-define([
-  'intern!tdd',
-  'intern/chai!assert',
-  'tests/addons/environment',
-], function(tdd, assert, Environment) {
-  var env = new Environment();
-  if (env.useRemoteServer) {
-    return;
-  }
+const assert = require('chai').assert;
+const Environment = require('../addons/environment');
 
-  with (tdd) {
-    suite('subscriptions', function() {
-      var accountHelper;
-      var respond;
-      var client;
-      var RequestMocks;
+if (process.env.useRemoteServer) {
+  return;
+}
 
-      beforeEach(function() {
-        env = new Environment();
-        accountHelper = env.accountHelper;
-        respond = env.respond;
-        client = env.client;
-        RequestMocks = env.RequestMocks;
-      });
+describe('subscriptions', function() {
+  var accountHelper;
+  var respond;
+  var client;
+  var RequestMocks;
+  let env;
 
-      test('#getActiveSubscriptions - missing token', function() {
-        return accountHelper
-          .newVerifiedAccount()
-          .then(function(account) {
-            return respond(
-              client.getActiveSubscriptions(),
-              RequestMocks.getActiveSubscriptions
-            );
-          })
-          .then(assert.notOk, function(error) {
-            assert.include(error.message, 'Missing token');
-          });
-      });
-      test('#getActiveSubscriptions', function() {
-        return accountHelper
-          .newVerifiedAccount()
-          .then(function(account) {
-            return respond(
-              client.getActiveSubscriptions('saynomore'),
-              RequestMocks.getActiveSubscriptions
-            );
-          })
-          .then(function(resp) {
-            assert.ok(resp);
-          }, assert.notOk);
-      });
+  beforeEach(function() {
+    env = new Environment();
+    accountHelper = env.accountHelper;
+    respond = env.respond;
+    client = env.client;
+    RequestMocks = env.RequestMocks;
+  });
 
-      test('#createSupportTicket - missing token', function() {
-        return accountHelper
-          .newVerifiedAccount()
-          .then(function(account) {
-            return respond(
-              client.createSupportTicket(),
-              RequestMocks.createSupportTicket
-            );
-          })
-          .then(assert.notOk, function(error) {
-            assert.include(error.message, 'Missing token');
-          });
+  it('#getActiveSubscriptions - missing token', function() {
+    return accountHelper
+      .newVerifiedAccount()
+      .then(function(account) {
+        return respond(
+          client.getActiveSubscriptions(),
+          RequestMocks.getActiveSubscriptions
+        );
+      })
+      .then(assert.notOk, function(error) {
+        assert.include(error.message, 'Missing token');
       });
-      test('#createSupportTicket - missing supportTicket', function() {
-        return accountHelper
-          .newVerifiedAccount()
-          .then(function(account) {
-            return respond(
-              client.createSupportTicket('redpandas'),
-              RequestMocks.createSupportTicket
-            );
-          })
-          .then(assert.notOk, function(error) {
-            assert.include(error.message, 'Missing supportTicket');
-          });
+  });
+  it('#getActiveSubscriptions', function() {
+    return accountHelper
+      .newVerifiedAccount()
+      .then(function(account) {
+        return respond(
+          client.getActiveSubscriptions('saynomore'),
+          RequestMocks.getActiveSubscriptions
+        );
+      })
+      .then(function(resp) {
+        assert.ok(resp);
+      }, assert.notOk);
+  });
+
+  it('#createSupportTicket - missing token', function() {
+    return accountHelper
+      .newVerifiedAccount()
+      .then(function(account) {
+        return respond(
+          client.createSupportTicket(),
+          RequestMocks.createSupportTicket
+        );
+      })
+      .then(assert.notOk, function(error) {
+        assert.include(error.message, 'Missing token');
       });
-      test('#createSupportTicket', function() {
-        return accountHelper
-          .newVerifiedAccount()
-          .then(function(account) {
-            return respond(
-              client.createSupportTicket('redpandas', {
-                topic: 'Species',
-                subject: 'Cute & Rare',
-                message: 'Need moar',
-              }),
-              RequestMocks.createSupportTicket
-            );
-          })
-          .then(function(resp) {
-            assert.ok(resp);
-          }, assert.notOk);
+  });
+  it('#createSupportTicket - missing supportTicket', function() {
+    return accountHelper
+      .newVerifiedAccount()
+      .then(function(account) {
+        return respond(
+          client.createSupportTicket('redpandas'),
+          RequestMocks.createSupportTicket
+        );
+      })
+      .then(assert.notOk, function(error) {
+        assert.include(error.message, 'Missing supportTicket');
       });
-    });
-  }
+  });
+  it('#createSupportTicket', function() {
+    return accountHelper
+      .newVerifiedAccount()
+      .then(function(account) {
+        return respond(
+          client.createSupportTicket('redpandas', {
+            topic: 'Species',
+            subject: 'Cute & Rare',
+            message: 'Need moar',
+          }),
+          RequestMocks.createSupportTicket
+        );
+      })
+      .then(function(resp) {
+        assert.ok(resp);
+      }, assert.notOk);
+  });
 });

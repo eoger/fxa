@@ -6,8 +6,8 @@
   "license": "MPL-2.0",
   "scripts": {
     "start": "grunt",
-    "test": "grunt test",
-    "test-local": "intern-client config=tests/intern auth_server=LOCAL",
+    "test": "mocha tests/lib --reporter dot",
+    "test-local": "AUTH_SERVER_URL=http://127.0.0.1:9000 mocha tests/lib --reporter dot",
     "setup": "npm install && grunt sjcl",
     "contributors": "git shortlog -s | cut -c8- | sort -f > CONTRIBUTORS.md",
     "format": "prettier '**' --write"
@@ -31,11 +31,14 @@
     "url": "https://github.com/mozilla/fxa/issues"
   },
   "dependencies": {
+    "amd-to-commonjs-codemod": "^1.2.0",
     "es6-promise": "4.1.1",
+    "jscodeshift": "^0.6.4",
     "sjcl": "git://github.com/bitwiseshiftleft/sjcl.git#a03ea8e",
     "xhr2": "0.0.7"
   },
   "devDependencies": {
+    "chai": "^4.2.0",
     "eslint-config-prettier": "^5.0.0",
     "grunt": "0.4.2",
     "grunt-build-control": "git://github.com/robwierzbowski/grunt-build-control#274952",
@@ -51,11 +54,12 @@
     "grunt-open": "0.2.4",
     "grunt-webpack": "3.0.2",
     "http-proxy": "1.11.1",
-    "intern-geezer": "2.2.3",
     "jscs-jsdoc": "1.1.0",
     "load-grunt-tasks": "3.2.0",
+    "mocha": "^6.2.0",
     "otplib": "7.1.0",
     "prettier": "^1.18.2",
+    "sinon": "^7.3.2",
     "webpack": "3.10.0"
   }
 }
