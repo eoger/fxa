@@ -31,9 +31,7 @@
     "url": "https://github.com/mozilla/fxa/issues"
   },
   "dependencies": {
-    "amd-to-commonjs-codemod": "^1.2.0",
     "es6-promise": "4.1.1",
-    "jscodeshift": "^0.6.4",
     "sjcl": "git://github.com/bitwiseshiftleft/sjcl.git#a03ea8e",
     "xhr2": "0.0.7"
   },
