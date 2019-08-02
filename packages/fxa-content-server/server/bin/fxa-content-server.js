@@ -59,8 +59,10 @@ const fourOhFour = require('../lib/404');
 const serverErrorHandler = require('../lib/500');
 const localizedRender = require('../lib/localized-render');
 const csp = require('../lib/csp');
-const cspRulesBlocking = require('../lib/csp/blocking')(config);
-const cspRulesReportOnly = require('../lib/csp/report-only')(config);
+const cspRulesBlocking = require('../../../fxa-shared/csp/blocking')(config);
+const cspRulesReportOnly = require('../../../fxa-shared/csp/report-only')(
+  config
+);
 
 const STATIC_DIRECTORY = path.join(
   __dirname,

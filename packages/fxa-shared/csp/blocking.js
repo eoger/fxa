@@ -19,7 +19,18 @@ function getOrigin(link) {
  * to be blocked if it runs afowl of a rule.
  */
 module.exports = function(config) {
+  // fail
   const AUTH_SERVER = getOrigin(config.get('fxaccount_url'));
+  // const AUTH_SERVER = getOrigin(config.get('fxaccount_url')) || getOrigin(config.get('servers.auth.url');
+
+  // works
+  let authServer;
+  try {
+    authServer = getOrigin(config.get('fxaccount_url'));
+  } catch (e) {
+    authServer = getOrigin(config.get('servers.auth.url'));
+  }
+
   const BLOB = 'blob:';
   const CDN_URL = config.get('static_resource_url');
   const DATA = 'data:';
@@ -53,6 +64,7 @@ module.exports = function(config) {
   }
 
   const rules = {
+    // TO DO: add https://stripe.com/docs/security#content-security-policy
     directives: {
       connectSrc: [
         SELF,

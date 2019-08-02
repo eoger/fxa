@@ -5,6 +5,11 @@
 'use strict';
 
 module.exports = {
+  // this can be removed if #1860 is landed
+  // csp: {
+  //   blocking: require('./csp/blocking'),
+  //   reportOnly: require('./csp/reportOnly'),
+  // },
   email: {
     popularDomains: require('./email/popularDomains'),
   },
