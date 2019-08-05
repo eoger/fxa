@@ -53,7 +53,6 @@ module.exports = function(config) {
   }
 
   const rules = {
-    // TO DO: add https://stripe.com/docs/security#content-security-policy
     directives: {
       connectSrc: [
         SELF,

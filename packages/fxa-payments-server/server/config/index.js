@@ -196,6 +196,24 @@ const conf = convict({
       env: 'STRIPE_API_KEY',
       format: String,
     },
+    apiUrl: {
+      default: 'https://api.stripe.com',
+      doc: 'Stripe connect-src directive',
+      env: 'STRIPE_API_URL',
+      format: 'url',
+    },
+    hooksUrl: {
+      default: 'https://hooks.stripe.com',
+      doc: 'Stripe frame-src directives',
+      env: 'STRIPE_HOOKS_URL',
+      format: 'url',
+    },
+    scriptUrl: {
+      default: 'https://js.stripe.com',
+      doc: 'Stripe script-src directive',
+      env: 'STRIPE_SCRIPT_URL',
+      format: 'url',
+    }
   },
 });
 

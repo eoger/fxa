@@ -34,15 +34,12 @@ suite.tests['blockingRules'] = function() {
   const CDN_SERVER = 'https://static.accounts.firefox.com';
   config.set('static_resource_url', CDN_SERVER);
 
-  const blockingRulesWithConfig = blockingRules(config);
-  const Sources = blockingRulesWithConfig.Sources;
+  const { Sources, directives, reportOnly } = blockingRules(config);
 
   // Ensure none of the Sources map to `undefined`G
   assert.notProperty(Sources, 'undefined');
 
-  assert.isFalse(blockingRulesWithConfig.reportOnly);
-
-  const directives = blockingRulesWithConfig.directives;
+  assert.isFalse(reportOnly);
 
   const connectSrc = directives.connectSrc;
   assert.lengthOf(connectSrc, 7);

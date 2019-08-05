@@ -26,15 +26,18 @@ module.exports = function(config) {
   const GRAVATAR = 'https://secure.gravatar.com';
   const OAUTH_SERVER = getOrigin(config.get('servers.oauth.url'));
   const PROFILE_SERVER = getOrigin(config.get('servers.profile.url'));
-
-  // Do we need this? The content server config has this but the payments
-  // server does not, and hits the profile server instead, yet I still see `:1112`
-  // hit (images server defined in content server config)
   const PROFILE_IMAGES_SERVER = getOrigin(
     config.get('servers.profileImages.url')
   );
-
   const PUBLIC_URL = config.get('listen.publicUrl');
+
+  const STRIPE_API_URL = getOrigin(config.get('stripe.apiUrl'));
+  const STRIPE_HOOKS_URL = getOrigin(config.get('stripe.hooksUrl'));
+  const STRIPE_SCRIPT_URL = getOrigin(config.get('stripe.scriptUrl'));
+
+  // const STRIPE_CSP_CONNECT = getOrigin(config.get('stripe.csp.connect'));
+  // const STRIPE_CSP_FRAME = getOrigin(config.get('stripe.csp.frame'));
+  // const STRIPE_CSP_SCRIPT = getOrigin(config.get('stripe.csp.script'));
 
   //
   // Double quoted values
@@ -55,9 +58,10 @@ module.exports = function(config) {
   const rules = {
     // TO DO: add https://stripe.com/docs/security#content-security-policy
     directives: {
-      connectSrc: [SELF, AUTH_SERVER, OAUTH_SERVER, PROFILE_SERVER],
+      connectSrc: [SELF, AUTH_SERVER, OAUTH_SERVER, PROFILE_SERVER, STRIPE_API_URL],
       defaultSrc: [SELF],
       fontSrc: addCdnRuleIfRequired([SELF]),
+      frameSrc: [STRIPE_SCRIPT_URL, STRIPE_HOOKS_URL],
       imgSrc: addCdnRuleIfRequired([
         SELF,
         DATA,
@@ -70,7 +74,7 @@ module.exports = function(config) {
       mediaSrc: [BLOB],
       objectSrc: [NONE],
       reportUri: config.get('csp.reportUri'),
-      scriptSrc: addCdnRuleIfRequired([SELF]),
+      scriptSrc: [addCdnRuleIfRequired([SELF]), STRIPE_SCRIPT_URL],
       styleSrc: addCdnRuleIfRequired([SELF]),
     },
     reportOnly: false,
