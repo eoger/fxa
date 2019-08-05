@@ -159,6 +159,14 @@ const conf = convict({
         env: "PROFILE_SERVER_URL",
         format: "url"
       }
+    },
+    profileImages: {
+      url: {
+        default: "http://127.0.0.1:1112",
+        doc: "The url of the Firefox Account Profile Image Server",
+        env: "FXA_PROFILE_IMAGES_URL",
+        format: "url"
+      }
     }
   },
   staticResources: {
@@ -195,20 +203,6 @@ const conf = convict({
 if (conf.get("env") === "development") {
   conf.set("csp.enabled", true);
 }
-
-// TO DO: remove these - gross
-// if (! conf.has('fxaccount_url')) {
-//   conf.set('fxaccount_url', conf.get('servers.auth.url'));
-// }
-// if (! conf.has('static_resource_url')) {
-//   conf.set('static_resource_url', conf.get('staticResources.url'));
-// }
-// if (! conf.has('oauth_url')) {
-//   conf.set('static_resource_url', conf.get('servers.oauth.url'));
-// }
-// if (! conf.has('profile_url')) {
-//   conf.set('static_resource_url', conf.get('servers.oauth.url'));
-// }
 
 // handle configuration files.  you can specify a CSV list of configuration
 // files to process, which will be overlayed in order, in the CONFIG_FILES

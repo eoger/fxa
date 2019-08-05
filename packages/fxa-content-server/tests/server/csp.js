@@ -6,7 +6,7 @@ const { registerSuite } = intern.getInterface('object');
 const assert = intern.getPlugin('chai').assert;
 const config = require('../../server/lib/configuration');
 const path = require('path');
-const blockingRules = require('../../../fxa-shared/csp/blocking');
+const blockingRules = require('../../server/lib/csp/blocking');
 const proxyquire = require('proxyquire');
 
 const csp = proxyquire(path.join(process.cwd(), 'server', 'lib', 'csp'), {

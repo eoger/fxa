@@ -7,11 +7,11 @@
 // exception for the /tests/index.html path, which are the frontend unit
 // tests.
 
-const url = require('url');
+const url = require("url");
 
 function getOrigin(link) {
   const parsed = url.parse(link);
-  return parsed.protocol + '//' + parsed.host;
+  return parsed.protocol + "//" + parsed.host;
 }
 
 /**
@@ -19,33 +19,22 @@ function getOrigin(link) {
  * to be blocked if it runs afowl of a rule.
  */
 module.exports = function(config) {
-  // fail
-  const AUTH_SERVER = getOrigin(config.get('fxaccount_url'));
-  // const AUTH_SERVER = getOrigin(config.get('fxaccount_url')) || getOrigin(config.get('servers.auth.url');
+  const AUTH_SERVER = getOrigin(config.get("servers.auth.url"));
+  const BLOB = "blob:";
+  const CDN_URL = config.get("staticResources.url");
+  const DATA = "data:";
+  const GRAVATAR = "https://secure.gravatar.com";
+  const OAUTH_SERVER = getOrigin(config.get("servers.oauth.url"));
+  const PROFILE_SERVER = getOrigin(config.get("servers.profile.url"));
 
-  // works
-  let authServer;
-  try {
-    authServer = getOrigin(config.get('fxaccount_url'));
-  } catch (e) {
-    authServer = getOrigin(config.get('servers.auth.url'));
-  }
+  // Do we need this? The content server config has this but the payments
+  // server does not, and hits the profile server instead, yet I still see `:1112`
+  // hit (images server defined in content server config)
+  const PROFILE_IMAGES_SERVER = getOrigin(
+    config.get("servers.profileImages.url")
+  );
 
-  const BLOB = 'blob:';
-  const CDN_URL = config.get('static_resource_url');
-  const DATA = 'data:';
-  const GRAVATAR = 'https://secure.gravatar.com';
-  const MARKETING_EMAIL_SERVER = getOrigin(
-    config.get('marketing_email.api_url')
-  );
-  const OAUTH_SERVER = getOrigin(config.get('oauth_url'));
-  const PROFILE_SERVER = getOrigin(config.get('profile_url'));
-  const PROFILE_IMAGES_SERVER = getOrigin(config.get('profile_images_url'));
-  const PUBLIC_URL = config.get('public_url');
-  const PAIRING_SERVER_WEBSOCKET = getOrigin(
-    config.get('pairing.server_base_uri')
-  );
-  const PAIRING_SERVER_HTTP = PAIRING_SERVER_WEBSOCKET.replace(/^ws/, 'http');
+  const PUBLIC_URL = config.get("listen.publicUrl");
 
   //
   // Double quoted values
@@ -66,15 +55,7 @@ module.exports = function(config) {
   const rules = {
     // TO DO: add https://stripe.com/docs/security#content-security-policy
     directives: {
-      connectSrc: [
-        SELF,
-        AUTH_SERVER,
-        OAUTH_SERVER,
-        PROFILE_SERVER,
-        MARKETING_EMAIL_SERVER,
-        PAIRING_SERVER_WEBSOCKET,
-        PAIRING_SERVER_HTTP,
-      ],
+      connectSrc: [SELF, AUTH_SERVER, OAUTH_SERVER, PROFILE_SERVER],
       defaultSrc: [SELF],
       fontSrc: addCdnRuleIfRequired([SELF]),
       imgSrc: addCdnRuleIfRequired([
@@ -84,13 +65,13 @@ module.exports = function(config) {
         // to break the site for users who already use a Gravatar as
         // their profile image.
         GRAVATAR,
-        PROFILE_IMAGES_SERVER,
+        PROFILE_IMAGES_SERVER
       ]),
       mediaSrc: [BLOB],
       objectSrc: [NONE],
-      reportUri: config.get('csp.reportUri'),
+      reportUri: config.get("csp.reportUri"),
       scriptSrc: addCdnRuleIfRequired([SELF]),
-      styleSrc: addCdnRuleIfRequired([SELF]),
+      styleSrc: addCdnRuleIfRequired([SELF])
     },
     reportOnly: false,
     // Sources are exported for unit tests
@@ -101,16 +82,13 @@ module.exports = function(config) {
       CDN_URL,
       DATA,
       GRAVATAR,
-      MARKETING_EMAIL_SERVER,
       NONE,
       OAUTH_SERVER,
-      PAIRING_SERVER_HTTP,
-      PAIRING_SERVER_WEBSOCKET,
       PROFILE_IMAGES_SERVER,
       PROFILE_SERVER,
       PUBLIC_URL,
-      SELF,
-    },
+      SELF
+    }
   };
 
   return rules;

@@ -24,10 +24,8 @@ module.exports = () => {
 
   const bodyParser = require("body-parser");
   const csp = require("../lib/csp");
-  const cspRulesBlocking = require("../../../fxa-shared/csp/blocking")(config);
-  const cspRulesReportOnly = require("../../../fxa-shared/csp/report-only")(
-    config
-  );
+  const cspRulesBlocking = require("../lib/csp/blocking")(config);
+  const cspRulesReportOnly = require("../lib/csp/report-only")(config);
 
   const app = express();
 

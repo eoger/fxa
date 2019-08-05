@@ -2,10 +2,6 @@
 
 ## Shared modules
 
-### CSP
-
-`csp/` contains shared CSP files across `fxa-content-server` and `fxa-payment-server`.
-
 ### l10n
 
 `supportedLanguages.json` is the shared list of all supported locales across FxA
