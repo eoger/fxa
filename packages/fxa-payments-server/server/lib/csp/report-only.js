@@ -13,8 +13,8 @@
 module.exports = function(config) {
   return {
     directives: {
-      reportUri: config.get("csp.reportOnlyUri")
+      reportUri: config.get('csp.reportOnlyUri'),
     },
-    reportOnly: true
+    reportOnly: true,
   };
 };
