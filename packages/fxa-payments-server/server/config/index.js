@@ -107,8 +107,8 @@ const conf = convict({
   productRedirectURLs: {
     default: {
       '123doneProProduct': 'http://127.0.0.1:8080/',
-      'prod_Ex9Z1q5yVydhyk': 'https://123done-latest.dev.lcip.org/',
-      'prod_FUUNYnlDso7FeB': 'https://123done-stage.dev.lcip.org',
+      prod_Ex9Z1q5yVydhyk: 'https://123done-latest.dev.lcip.org/',
+      prod_FUUNYnlDso7FeB: 'https://123done-stage.dev.lcip.org',
     },
     doc: 'Mapping between product IDs and post-subscription redirect URLs',
     env: 'PRODUCT_REDIRECT_URLS',
@@ -198,22 +198,22 @@ const conf = convict({
     },
     apiUrl: {
       default: 'https://api.stripe.com',
-      doc: 'Stripe connect-src directive',
+      doc: 'The Stripe API url',
       env: 'STRIPE_API_URL',
       format: 'url',
     },
     hooksUrl: {
       default: 'https://hooks.stripe.com',
-      doc: 'Stripe frame-src directives',
+      doc: 'The Stripe hooks url',
       env: 'STRIPE_HOOKS_URL',
       format: 'url',
     },
     scriptUrl: {
       default: 'https://js.stripe.com',
-      doc: 'Stripe script-src directive',
+      doc: 'The Stripe script url',
       env: 'STRIPE_SCRIPT_URL',
       format: 'url',
-    }
+    },
   },
 });
 

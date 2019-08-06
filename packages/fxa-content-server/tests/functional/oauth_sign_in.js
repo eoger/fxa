@@ -29,6 +29,7 @@ let secret;
 const thenify = FunctionalHelpers.thenify;
 
 const {
+  cleanMemory,
   clearBrowserState,
   click,
   closeCurrentWindow,
@@ -45,7 +46,6 @@ const {
   openVerificationLinkInDifferentBrowser,
   openVerificationLinkInNewTab,
   openVerificationLinkInSameTab,
-  reOpenWithAdditionalQueryParams,
   switchToWindow,
   testElementExists,
   testElementTextInclude,
@@ -81,6 +81,12 @@ registerSuite('oauth signin', {
     );
   },
   tests: {
+    'clear memory': function() {
+      // tests fail on this suite very often on Circle because Firefox
+      // crashes here. Clear memory and hope that helps.
+      return this.remote.then(cleanMemory());
+    },
+
     'with missing client_id': function() {
       return this.remote.then(
         openPage(SIGNIN_ROOT + '?scope=profile', selectors['400'].HEADER)
@@ -103,13 +109,11 @@ registerSuite('oauth signin', {
     },
 
     'with service=sync specified': function() {
-      return this.remote.then(openFxaFromRp('signin')).then(
-        reOpenWithAdditionalQueryParams(
-          {
-            service: 'sync',
-          },
-          selectors['400'].HEADER
-        )
+      return this.remote.then(
+        openFxaFromRp('signin', {
+          header: selectors['400'].HEADER,
+          query: { service: 'sync' },
+        })
       );
     },
 

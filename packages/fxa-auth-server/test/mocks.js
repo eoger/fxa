@@ -122,25 +122,28 @@ const LOG_METHOD_NAMES = [
 ];
 
 const MAILER_METHOD_NAMES = [
+  'sendDownloadSubscription',
+  'sendLowRecoveryCodeNotification',
   'sendNewDeviceLoginNotification',
   'sendPasswordChangedNotification',
+  'sendPasswordResetAccountRecoveryNotification',
   'sendPasswordResetNotification',
+  'sendPostAddAccountRecoveryNotification',
   'sendPostAddTwoStepAuthNotification',
   'sendPostChangePrimaryEmail',
+  'sendPostConsumeRecoveryCodeNotification',
   'sendPostNewRecoveryCodesNotification',
+  'sendPostRemoveAccountRecoveryNotification',
   'sendPostRemoveSecondaryEmail',
   'sendPostVerifyEmail',
   'sendPostRemoveTwoStepAuthNotification',
   'sendPostVerifySecondaryEmail',
+  'sendRecoveryCode',
   'sendUnblockCode',
   'sendVerifyCode',
   'sendVerifyLoginEmail',
   'sendVerifyLoginCodeEmail',
   'sendVerifySecondaryEmail',
-  'sendRecoveryCode',
-  'sendPostAddAccountRecoveryNotification',
-  'sendPostRemoveAccountRecoveryNotification',
-  'sendPasswordResetAccountRecoveryNotification',
 ];
 
 const METRICS_CONTEXT_METHOD_NAMES = [
@@ -225,6 +228,7 @@ function mockDB(data, errors) {
         email: data.email,
         emailCode: data.emailCode,
         emailVerified: data.emailVerified,
+        locale: data.locale,
         primaryEmail: {
           normalizedEmail: data.email.toLowerCase(),
           email: data.email,

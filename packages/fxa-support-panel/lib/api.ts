@@ -21,8 +21,15 @@ export type SupportConfig = {
 const queryValidator = joi
   .object()
   .keys({
-    requestTicket: string().optional(),
-    uid: joi.string().required()
+    requestTicket: joi
+      .number()
+      .integer()
+      .optional(),
+    uid: joi
+      .string()
+      .required()
+      .hex()
+      .length(32)
   })
   .required();
 
@@ -59,6 +66,17 @@ export interface TotpTokenResponse {
   epoch: number;
   verified: boolean;
   enabled: boolean;
+}
+
+interface PanelTemplateContext {
+  created: string;
+  devices: Array<{ name: string; type: string; created: string }>;
+  email: string;
+  emailVerified: boolean;
+  locale: string;
+  subscriptionStatus: boolean;
+  twoFactorAuth: boolean;
+  uid: string;
 }
 
 class SupportController {
@@ -116,13 +134,13 @@ class SupportController {
       }
     }
     const hasSubscriptions = subscriptions.length > 0 ? true : false;
-    const context = {
+    const context: PanelTemplateContext = {
       created: String(new Date(account.createdAt)),
-      devices: devices.forEach(d => {
+      devices: devices.map(d => {
         return { name: d.name, type: d.type, created: String(new Date(d.createdAt)) };
       }),
       email: account.email,
-      emailVerified: account.emailVerified,
+      emailVerified: !!account.emailVerified,
       locale: account.locale,
       subscriptionStatus: hasSubscriptions,
       twoFactorAuth: totpEnabled,

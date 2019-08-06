@@ -1,6 +1,6 @@
 {
     "name": "fxa-content-server",
-    "version": "1.142.1",
+    "version": "1.143.0",
     "description": "Firefox Accounts Content Server",
     "scripts": {
         "build-production": "NODE_ENV=production grunt build",
@@ -68,7 +68,7 @@
         "fxa-js-client": "^1.0.17",
         "fxa-mustache-loader": "0.0.2",
         "fxa-pairing-channel": "1.0.1",
-        "fxa-shared": "^1.0.27",
+        "fxa-shared": "^1.0.28",
         "got": "6.7.1",
         "grunt": "1.0.4",
         "grunt-babel": "6.0.0",

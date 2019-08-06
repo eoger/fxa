@@ -27,6 +27,7 @@ module.exports = {
     AUTHENTICATED_TOTP: '#loggedin span:first-child',
     BUTTON_SIGNIN: '.sign-in-button.signin',
     BUTTON_SIGNIN_CHOOSE_FLOW_FOR_ME: '.ready .sign-choose',
+    BUTTON_PROMPT_NONE: '.ready .prompt-none',
     BUTTON_SIGNUP: '.sign-in-button.signup',
     LINK_LOGOUT: '#logout',
   },
@@ -333,7 +334,7 @@ module.exports = {
     VPASSWORD: '#vpassword',
   },
   SMS_LEARN_MORE: {
-    HEADER: '#websites-notice',
+    HEADER: '#firefox-notice',
   },
   SMS_SEND: {
     HEADER: '#fxa-send-sms-header',
