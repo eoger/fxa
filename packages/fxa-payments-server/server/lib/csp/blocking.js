@@ -30,14 +30,11 @@ module.exports = function(config) {
     config.get('servers.profileImages.url')
   );
   const PUBLIC_URL = config.get('listen.publicUrl');
+  const PAIRING_SERVER_WEBSOCKET = PUBLIC_URL.replace(/^http/, 'ws');
 
   const STRIPE_API_URL = getOrigin(config.get('stripe.apiUrl'));
   const STRIPE_HOOKS_URL = getOrigin(config.get('stripe.hooksUrl'));
   const STRIPE_SCRIPT_URL = getOrigin(config.get('stripe.scriptUrl'));
-
-  // const STRIPE_CSP_CONNECT = getOrigin(config.get('stripe.csp.connect'));
-  // const STRIPE_CSP_FRAME = getOrigin(config.get('stripe.csp.frame'));
-  // const STRIPE_CSP_SCRIPT = getOrigin(config.get('stripe.csp.script'));
 
   //
   // Double quoted values
@@ -51,17 +48,22 @@ module.exports = function(config) {
     if (CDN_URL !== PUBLIC_URL) {
       target.push(CDN_URL);
     }
-
     return target;
   }
 
   const rules = {
-    // TO DO: add https://stripe.com/docs/security#content-security-policy
     directives: {
-      connectSrc: [SELF, AUTH_SERVER, OAUTH_SERVER, PROFILE_SERVER, STRIPE_API_URL],
+      connectSrc: [
+        SELF,
+        AUTH_SERVER,
+        OAUTH_SERVER,
+        PROFILE_SERVER,
+        PAIRING_SERVER_WEBSOCKET,
+        STRIPE_API_URL,
+      ],
       defaultSrc: [SELF],
       fontSrc: addCdnRuleIfRequired([SELF]),
-      frameSrc: [STRIPE_SCRIPT_URL, STRIPE_HOOKS_URL],
+      frameSrc: [STRIPE_SCRIPT_URL, STRIPE_HOOKS_URL, PAIRING_SERVER_WEBSOCKET],
       imgSrc: addCdnRuleIfRequired([
         SELF,
         DATA,
@@ -74,7 +76,7 @@ module.exports = function(config) {
       mediaSrc: [BLOB],
       objectSrc: [NONE],
       reportUri: config.get('csp.reportUri'),
-      scriptSrc: [addCdnRuleIfRequired([SELF]), STRIPE_SCRIPT_URL],
+      scriptSrc: addCdnRuleIfRequired([SELF, STRIPE_SCRIPT_URL]),
       styleSrc: addCdnRuleIfRequired([SELF]),
     },
     reportOnly: false,
@@ -88,9 +90,13 @@ module.exports = function(config) {
       GRAVATAR,
       NONE,
       OAUTH_SERVER,
+      PAIRING_SERVER_WEBSOCKET,
       PROFILE_IMAGES_SERVER,
       PROFILE_SERVER,
       PUBLIC_URL,
+      STRIPE_API_URL,
+      STRIPE_HOOKS_URL,
+      STRIPE_SCRIPT_URL,
       SELF,
     },
   };
