@@ -65,7 +65,7 @@ module.exports = function(config) {
       ],
       defaultSrc: [SELF],
       fontSrc: addCdnRuleIfRequired([SELF]),
-      frameSrc: [STRIPE_SCRIPT_URL, STRIPE_HOOKS_URL, SELF],
+      frameSrc: [STRIPE_SCRIPT_URL, STRIPE_HOOKS_URL],
       imgSrc: addCdnRuleIfRequired([
         SELF,
         DATA,

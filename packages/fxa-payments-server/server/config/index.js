@@ -214,6 +214,7 @@ const conf = convict({
       env: 'STRIPE_SCRIPT_URL',
       format: 'url',
     },
+    // may not need
     // checkoutUrl: {
     //   default: 'https://checkout.stripe.com',
     //   doc: 'The Stripe checkout url',
