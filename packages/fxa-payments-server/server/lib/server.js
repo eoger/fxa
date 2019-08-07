@@ -112,7 +112,7 @@ module.exports = () => {
     // JS, CSS and web font resources served from a CDN
     // will be ignored unless CORS headers are present.
     const corsOptions = {
-      origin: config.get('public_url'),
+      origin: config.get('listen.publicUrl'),
     };
 
     app

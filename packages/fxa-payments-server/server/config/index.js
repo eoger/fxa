@@ -214,6 +214,18 @@ const conf = convict({
       env: 'STRIPE_SCRIPT_URL',
       format: 'url',
     },
+    // checkoutUrl: {
+    //   default: 'https://checkout.stripe.com',
+    //   doc: 'The Stripe checkout url',
+    //   env: 'STRIPE_CHECKOUT_URL',
+    //   format: 'url',
+    // },
+    // imageUrl: {
+    //   default: 'https://*.stripe.com',
+    //   doc: 'The catch-all Stripe asterisk url for images',
+    //   env: 'STRIPE_ASTERISK_URL',
+    //   format: 'url',
+    // }
   },
 });
 

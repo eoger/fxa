@@ -41,8 +41,10 @@ module.exports = function(config) {
   //
   const NONE = "'none'";
   // keyword sources - https://www.w3.org/TR/CSP2/#keyword_source
-  // Note: "'unsafe-inline'" and "'unsafe-eval'" are not used in this module.
+  // Note: "'unsafe-eval'" is not used in this module, and "'unsafe-inline'" is
+  // needed for React inline styles.
   const SELF = "'self'";
+  const UNSAFE_INLINE = "'unsafe-inline'";
 
   function addCdnRuleIfRequired(target) {
     if (CDN_URL !== PUBLIC_URL) {
@@ -63,7 +65,7 @@ module.exports = function(config) {
       ],
       defaultSrc: [SELF],
       fontSrc: addCdnRuleIfRequired([SELF]),
-      frameSrc: [STRIPE_SCRIPT_URL, STRIPE_HOOKS_URL, PAIRING_SERVER_WEBSOCKET],
+      frameSrc: [STRIPE_SCRIPT_URL, STRIPE_HOOKS_URL, SELF],
       imgSrc: addCdnRuleIfRequired([
         SELF,
         DATA,
@@ -77,7 +79,7 @@ module.exports = function(config) {
       objectSrc: [NONE],
       reportUri: config.get('csp.reportUri'),
       scriptSrc: addCdnRuleIfRequired([SELF, STRIPE_SCRIPT_URL]),
-      styleSrc: addCdnRuleIfRequired([SELF]),
+      styleSrc: addCdnRuleIfRequired([SELF, UNSAFE_INLINE]),
     },
     reportOnly: false,
     // Sources are exported for unit tests
